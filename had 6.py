@@ -1,12 +1,16 @@
 import pygame
 from Communication.tcp import Client
 
+##'192.168.42.102',11111
+##'192.168.42.71',1234
+
 server = Client('192.168.42.71',1234)
 
 grid_size = 10
 
-x=50
-y=50
+mapa = []
+x=0
+y=0
 
 if server.connected == False:
     print('Nepodarilo se pripojit.')
@@ -15,7 +19,6 @@ else:
     pygame.init()
 
     screen = pygame.display.set_mode((800,800))
-    pygame.time.set_timer(pygame.USEREVENT + 1,1)
     
     while True:
         event = pygame.event.poll()
@@ -31,45 +34,37 @@ else:
                 server.write('s')
             elif pygame.key.get_pressed()[pygame.K_d]:
                 server.write('d')
-        if event.type == (pygame.USEREVENT + 1):
-            i = server.read(1)
-            print(i)
-            if i == '\n':
-                x=0
-                y+=grid_size
-                i = server.read(1)                
-            if i == '!':
-                x=0
-                y=0
-                break
-            elif i == '#':
-                pygame.draw.rect(screen, (0,0,255),(x,y,grid_size,grid_size))
-                x+=grid_size
-                i = server.read(1)
-                pygame.display.flip()
-            elif i == '*':
-                pygame.draw.circle(screen, (255,0,0),(x,y),grid_size // 2)
-                x+=grid_size
-                i = server.read(1)
-            elif i == '':
-                x+=grid_size
-                i = server.read(1)
-            elif i == 'a':
-                pygame.draw.circle(screen, (255,255,0),(x,y),grid_size // 2)
-                x+=grid_size
-                i = server.read(1)
-            elif i == 'b':
-                pygame.draw.circle(screen, (0,255,0),(x,y),grid_size // 2)
-                x+=grid_size
-                i = server.read(1)
-            elif i == 'c':
-                pygame.draw.circle(screen, (255,255,255),(x,y),grid_size // 2)
-                x+=grid_size
-                i = server.read(1)
-
-
-
-
+##        while server.read(1) != '!':
+##            mapa.append(server.read(1))
+##        else:
+##            mapa.append(server.read(1))
+##            break
+##        for i in mapa:
+##            if i == '\n':
+##                x=0
+##                y+=grid_size                
+##            elif i == '!':
+##                x=0
+##                y=0
+##                break
+##            elif i == '#':
+##                pygame.draw.rect(screen, (0,0,255),(x,y,grid_size,grid_size))
+##                x+=grid_size
+##                pygame.display.flip()
+##            elif i == '*':
+##                pygame.draw.circle(screen, (255,0,0),(x,y),grid_size // 2)
+##                x+=grid_size
+##            elif i == '':
+##                x+=grid_size
+##            elif i == 'a':
+##                pygame.draw.circle(screen, (255,255,0),(x,y),grid_size // 2)
+##                x+=grid_size
+##            elif i == 'b':
+##                pygame.draw.circle(screen, (0,255,0),(x,y),grid_size // 2)
+##                x+=grid_size
+##            elif i == 'c':
+##                pygame.draw.circle(screen, (255,255,255),(x,y),grid_size // 2)
+##                x+=grid_size
 
 
 
