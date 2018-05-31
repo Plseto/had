@@ -34,37 +34,34 @@ else:
                 server.write('s')
             elif pygame.key.get_pressed()[pygame.K_d]:
                 server.write('d')
-##        while server.read(1) != '!':
-##            mapa.append(server.read(1))
-##        else:
-##            mapa.append(server.read(1))
-##            break
-##        for i in mapa:
-##            if i == '\n':
-##                x=0
-##                y+=grid_size                
-##            elif i == '!':
-##                x=0
-##                y=0
-##                break
-##            elif i == '#':
-##                pygame.draw.rect(screen, (0,0,255),(x,y,grid_size,grid_size))
-##                x+=grid_size
-##                pygame.display.flip()
-##            elif i == '*':
-##                pygame.draw.circle(screen, (255,0,0),(x,y),grid_size // 2)
-##                x+=grid_size
-##            elif i == '':
-##                x+=grid_size
-##            elif i == 'a':
-##                pygame.draw.circle(screen, (255,255,0),(x,y),grid_size // 2)
-##                x+=grid_size
-##            elif i == 'b':
-##                pygame.draw.circle(screen, (0,255,0),(x,y),grid_size // 2)
-##                x+=grid_size
-##            elif i == 'c':
-##                pygame.draw.circle(screen, (255,255,255),(x,y),grid_size // 2)
-##                x+=grid_size
+        for i in range(200):
+            mapa.append(server.read(1))
+        for i in mapa:
+            if i == '\n':
+                x=0
+                y+=grid_size                
+            elif i == '!':
+                x=0
+                y=0
+                pygame.display.flip()
+                break
+            elif i == '#':
+                pygame.draw.rect(screen, (0,0,255),(x,y,grid_size,grid_size))
+                x+=grid_size
+            elif i == '*':
+                pygame.draw.circle(screen, (255,0,0),(x,y),grid_size // 2)
+                x+=grid_size
+            elif i == '':
+                x+=grid_size
+            elif i == 'a':
+                pygame.draw.circle(screen, (255,255,0),(x,y),grid_size // 2)
+                x+=grid_size
+            elif i == 'b':
+                pygame.draw.circle(screen, (0,255,0),(x,y),grid_size // 2)
+                x+=grid_size
+            elif i == 'c':
+                pygame.draw.circle(screen, (255,255,255),(x,y),grid_size // 2)
+                x+=grid_size
 
 
 
