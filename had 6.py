@@ -14,10 +14,10 @@ server = Client('192.168.42.71',1234)
 
 grid_size = 10
 
-mapa = []
+mapa = [[[]]]
 x = 0
 y = 0
-
+frame = 0
 
 ##if server.connected == False:
 ##    print('Nepodarilo se pripojit.')
@@ -32,6 +32,15 @@ pygame.time.set_timer(pygame.USEREVENT + 1,1000)
 soubor = open('snake.txt')
 a=soubor.read()
 soubor.close()
+for p in a:
+    if (p=='!'):
+        mapa[-1][-1].append('!')
+        mapa.append([])
+    elif (p== '\n'):
+        mapa[-1].append([])
+        mapa[-1][-1].append('\n')
+    else:
+        mapa[-1][-1].append(p)
 
 while True:
     event = pygame.event.poll()
@@ -47,35 +56,34 @@ while True:
             server.write('s')
         elif pygame.key.get_pressed()[pygame.K_d]:
             server.write('d')
-    for p in a:
-        mapa.append(p)
-    for i in mapa:
-        if event.type == (pygame.USEREVENT + 1):
-            screen.fill((0,0,0))
-            if i == '\n':
-                x=0
-                y+=grid_size
-            elif i == '!':
-                x=0
-                y=0
-                pygame.display.flip()
-                mapa = []
-            elif i == '#':
-                pygame.draw.rect(screen, (0,0,255),(x,y,grid_size,grid_size))
-                x+=grid_size
-            elif i == '*':
-                pygame.draw.circle(screen, (255,0,0),(x,y),grid_size // 2)
-                x+=grid_size
-            elif i == ' ':
-                x+=grid_size
-            elif i == 'a':
-                pygame.draw.circle(screen, (255,255,0),(x,y),grid_size // 2)
-                x+=grid_size
-            elif i == 'b':
-                pygame.draw.circle(screen, (0,255,0),(x,y),grid_size // 2)
-                x+=grid_size
-            elif i == 'c':
-                pygame.draw.circle(screen, (255,255,255),(x,y),grid_size // 2)
-                x+=grid_size
+    if event.type == (pygame.USEREVENT + 1):
+        screen.fill((0,0,0))
+        for line in mapa[frame]:
+            for i in line:
+                if i == '\n':
+                    x=0
+                    y+=grid_size
+                elif i == '!':
+                    x=0
+                    y=0
+                    pygame.display.flip()
+                    frame += 1
+                elif i == '#':
+                    pygame.draw.rect(screen, (0,0,255),(x,y,grid_size,grid_size))
+                    x+=grid_size
+                elif i == '*':
+                    pygame.draw.circle(screen, (255,0,0),(x+grid_size // 2,y+grid_size // 2),grid_size // 2)
+                    x+=grid_size
+                elif i == ' ':
+                    x+=grid_size
+                elif i == 'a':
+                    pygame.draw.circle(screen, (255,255,0),(x+grid_size // 2,y+grid_size // 2),grid_size // 2)
+                    x+=grid_size
+                elif i == 'b':
+                    pygame.draw.circle(screen, (0,255,0),(x,y),grid_size // 2)
+                    x+=grid_size
+                elif i == 'c':
+                    pygame.draw.circle(screen, (255,255,255),(x,y),grid_size // 2)
+                    x+=grid_size
 
 pygame.quit()
